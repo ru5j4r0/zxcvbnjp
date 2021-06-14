@@ -42,28 +42,36 @@ time_estimates =
     year = month * 12
     century = year * 100
     [display_num, display_str] = if seconds < 1
-      [null, 'less than a second']
+      [null, '1秒未満']
+      # [null, 'less than a second']
     else if seconds < minute
       base = Math.round seconds
-      [base, "#{base} second"]
+      [base, "#{base} 秒"]
+      # [base, "#{base} second"]
     else if seconds < hour
       base = Math.round seconds / minute
-      [base, "#{base} minute"]
+      [base, "#{base} 分"]
+      # [base, "#{base} minute"]
     else if seconds < day
       base = Math.round seconds / hour
-      [base, "#{base} hour"]
+      [base, "#{base} 時間"]
+      # [base, "#{base} hour"]
     else if seconds < month
       base = Math.round seconds / day
-      [base, "#{base} day"]
+      [base, "#{base} 日"]
+      # [base, "#{base} day"]
     else if seconds < year
       base = Math.round seconds / month
-      [base, "#{base} month"]
+      [base, "#{base} か月"]
+      # [base, "#{base} month"]
     else if seconds < century
       base = Math.round seconds / year
-      [base, "#{base} year"]
+      [base, "#{base} 年"]
+      # [base, "#{base} year"]
     else
-      [null, 'centuries']
-    display_str += 's' if display_num? and display_num != 1
+      [null, '100年以上']
+      # [null, 'centuries']
+    # display_str += 's' if display_num? and display_num != 1
     display_str
 
 module.exports = time_estimates

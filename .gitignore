@@ -3,9 +3,14 @@
 !demo/jquery.js
 !demo/require.js
 !demo/mustache.js
+!/demo/demo.js
+!/docs/main.js
 node_modules
 lib
 *~
 *.swp
 *.swo
 tmux-*.log
+
+/.devcontainer/
+/package-lock.json

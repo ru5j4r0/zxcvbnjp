@@ -1,0 +1,44 @@
+:root {
+  --tab-width: 2ch;
+}
+
+body {
+  max-width: initial;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col2 {
+  width: 50%;
+}
+
+.selected {
+  background: darkslateblue;
+}
+
+.hide {
+  display: none;
+}
+
+.tab1 {
+  padding-left: var(--tab-width);
+}
+
+.tab2 {
+  padding-left: calc(var(--tab-width)*2);
+}
+
+#score_meter:-moz-meter-sub-sub-optimum~#score_display {
+  color: red;
+}
+
+#score_meter:-moz-meter-sub-optimum~#score_display {
+  color: orange;
+}
+
+#score_meter:-moz-meter-optimum~#score_display {
+  color: mediumseagreen;
+}

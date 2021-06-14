@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zxcvbnjpのデモ</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+  <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <h1>zxcvbnjpのデモ</h1>
+  <div class="flex-wrap">
+    <div class="col2">
+      <h2>フォームの実装例</h2>
+      <label for="password_input">パスワード</label>
+      <div class="flex-wrap">
+        <input id="password_input" type="text" value="P@ssw0rd">
+        <span id="feedback" data-balloon-pos="right" data-balloon-length="xlarge" data-balloon-visible data-balloon-break></span>
+      </div>
+      <div>
+        <meter id="score_meter" form="password_input" min="0" low="3" high="3" optimum="4" max="5"></meter>
+        <span id="score_display"></span>
+      </div>
+      <div>
+        <input type="checkbox" id="password_visibility" checked>
+        <label for="password_visibility">パスワードを表示する</label>
+      </div>
+    </div>
+    <div class="col2">
+      <h2>実装例のコード</h2>
+      <p>※<a href="https://kazzkiq.github.io/balloon.css/">Balloon.css</a>を使用しています</p>
+      <button id="show_html">HTML</button>
+      <button id="show_css">CSS</button>
+      <button id="show_js">JavaScript</button>
+      <pre><code id="impl_html">
+      </code></pre>
+      <pre><code id="impl_css">
+      </code></pre>
+      <pre><code id="impl_js">
+      </code></pre>
+    </div>
+  </div>
+  <h2>プロパティ一覧</h2>
+  <table>
+    <tr>
+      <th>コード</th>
+      <th>結果</th>
+      <th>説明</th>
+    </tr>
+    <tr>
+      <td><code>res = zxcvbn('<span id="arg_password"></span>')</code></td>
+      <td></td>
+      <td>いくつかのプロパティを持つ結果オブジェクト</td>
+    </tr>
+    <tr>
+      <td class="tab1"><code>res.calc_time</code></td>
+      <td><samp id="res_calc_time">N/A</samp></td>
+      <td class="tab1"><code>zxcvbn</code>関数の処理時間 [ms]</td>
+    </tr>
+    <tr>
+      <td class="tab1"><code>disp = res.crack_times_display</code></td>
+      <td></td>
+      <td class="tab1">シナリオ別パスワードを破るまでの時間目安</td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>disp.offline_fast_hashing_1e10_per_second</code></td>
+      <td><samp id="disp_offline_fast_hashing">N/A</samp></td>
+      <td class="tab2"><a href="#fast_hash">ファストハッシュを前提としたオフライン攻撃</a>のシナリオ</td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>disp.offline_slow_hashing_1e4_per_second</code></td>
+      <td><samp id="disp_offline_slow_hashing">N/A</samp></td>
+      <td class="tab2"><a href="#slow_hash">スローハッシュを前提としたオフライン攻撃</a>のシナリオ</td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>disp.online_no_throttling_10_per_second</code></td>
+      <td><samp id="disp_online_no_throttling">N/A</samp></td>
+      <td class="tab2"><a href="#unthrottled">無制限なオンライン攻撃</a>のシナリオ</td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>disp.online_throttling_100_per_hour</code></td>
+      <td><samp id="disp_online_throttling">N/A</samp></td>
+      <td class="tab2"><a href="#throttled">制限されたオンライン攻撃</a>のシナリオ</td>
+    </tr>
+    <tr>
+      <td class="tab1"><code>sec = res.crack_times_seconds</code></td>
+      <td></td>
+      <td class="tab1">シナリオ別パスワードを破るまでの秒数</td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>sec.offline_fast_hashing_1e10_per_second</code></td>
+      <td><samp id="sec_offline_fast_hashing">N/A</samp></td>
+      <td class="tab2"><a href="#fast_hash">ファストハッシュを前提としたオフライン攻撃</a>のシナリオ</td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>sec.offline_slow_hashing_1e4_per_second</code></td>
+      <td><samp id="sec_offline_slow_hashing">N/A</samp></td>
+      <td class="tab2"><a href="#slow_hash">スローハッシュを前提としたオフライン攻撃</a>のシナリオ</td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>sec.online_no_throttling_10_per_second</code></td>
+      <td><samp id="sec_online_no_throttling">N/A</samp></td>
+      <td class="tab2"><a href="#unthrottled">無制限なオンライン攻撃</a>のシナリオ</td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>sec.online_throttling_100_per_hour</code></td>
+      <td><samp id="sec_online_throttling">N/A</samp></td>
+      <td class="tab2"><a href="#throttled">制限されたオンライン攻撃</a>のシナリオ</td>
+    </tr>
+    <tr>
+      <td class="tab1"><code>fb = res.feedback</code></td>
+      <td></td>
+      <td class="tab1">パスワードに関するフィードバック</td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>fb.suggestions.join('\n')</code></td>
+      <td><pre><samp id="fb_suggestions">N/A</samp></pre></td>
+      <td class="tab2">
+        推測されにくいパスワードを選ぶ助けとなるような提案のリスト<br>
+        空リストの場合もある
+      </td>
+    </tr>
+    <tr>
+      <td class="tab2"><code>fb.warning</code></td>
+      <td><samp id="fb_warning">N/A</samp></td>
+      <td class="tab2">
+        パスワードのなにが悪いかの説明<br>
+        空文字列の場合もある
+      </td>
+    </tr>
+    <tr>
+      <td class="tab1"><code>res.guesses</code></td>
+      <td><samp id="res_guesses">N/A</samp></td>
+      <td class="tab1">パスワードを破るまでの推測数</td>
+    </tr>
+    <tr>
+      <td class="tab1"><code>res.guesses_log10</code></td>
+      <td><samp id="res_guesses_log10">N/A</samp></td>
+      <td class="tab1">
+        log10(推測数)<br>
+        大まかな強度の指標となる
+      </td>
+    </tr>
+    <tr>
+      <td class="tab1"><code>res.password</code></td>
+      <td><samp id="res_password">N/A</samp></td>
+      <td class="tab1">パスワードそのもの</td>
+    </tr>
+    <tr>
+      <td class="tab1"><code>res.score</code></td>
+      <td><samp id="res_score">N/A</samp></td>
+      <td class="tab1">5段階評価の<a href="#about_score">スコア</a></td>
+    </tr>
+    <tr>
+      <td class="tab1"><code>res.sequence</code></td>
+      <td></td>
+      <td class="tab1">
+        推測に関する計算の基となったパターンのリスト<br>
+        詳細は割愛
+      </td>
+    </tr>
+  </table>
+  <h2>シナリオについて</h2>
+  <h3 id="fast_hash">ファストハッシュを前提としたオフライン攻撃</h3>
+  <ul>
+    <li>SHA-1、SHA-256、MD5といった比較的高速に計算できるハッシュを使用している前提</li>
+    <li>単位時間あたりの試行回数が増える</li>
+    <li>実際は計算機の性能などにより変化するが、ここでは秒間100億回の試行を仮定している</li>
+  </ul>
+  <h3 id="slow_hash">スローハッシュを前提としたオフライン攻撃</h3>
+  <ul>
+    <li>bcrypt、scrypt、PBKDF2といった計算が比較的低速になるハッシュを使用している前提</li>
+    <li>単位時間あたりの試行回数が減る</li>
+    <li>実際は計算機の性能などにより変化するが、ここでは秒間1万回の試行を仮定している</li>
+  </ul>
+  <h3 id="unthrottled">無制限なオンライン攻撃</h3>
+  <ul>
+    <li>同じアカウントへのログイン試行回数や、同じIPアドレスからのログイン試行回数などを制限していない前提</li>
+    <li>単位時間あたりの試行回数が増える</li>
+    <li>実際はネットワーク環境などにより変化するが、ここでは秒間10回の試行を仮定している</li>
+  </ul>
+  <h3 id="throttled">制限されたオンライン攻撃</h3>
+  <ul>
+    <li>同じアカウントへのログイン試行回数や、同じIPアドレスからのログイン試行回数などを制限している前提</li>
+    <li>単位時間あたりの試行回数が減る</li>
+    <li>実際はネットワーク環境などにより変化するが、ここでは1時間あたり100回の試行を仮定している</li>
+  </ul>
+  <h2 id="about_score">スコアについて</h2>
+  <table>
+    <tr>
+      <th>スコア</th>
+      <th>基準</th>
+      <th>目安</th>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>推測数 &lt; 10^3</td>
+      <td>
+        極めて推測可能<br>
+        危険なパスワード
+      </td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>推測数 &lt; 10^6</td>
+      <td>
+        十分に推測可能<br>
+        <a href="#throttled">制限されたオンライン攻撃</a>からの保護
+      </td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>推測数 &lt; 10^8</td>
+      <td>
+        ある程度は推測可能<br>
+        <a href="#unthrottled">無制限なオンライン攻撃</a>からの保護
+      </td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>推測数 &lt; 10^10</td>
+      <td>
+        十分に推測困難<br>
+        <a href="#slow_hash">スローハッシュを前提としたオフライン攻撃</a>からの程よい保護
+      </td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>推測数 &gt;= 10^10</td>
+      <td>
+        極めて推測困難<br>
+        <a href="#slow_hash">スローハッシュを前提としたオフライン攻撃</a>からの強力な保護
+      </td>
+    </tr>
+  </table>
+  <script src="zxcvbn.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
